@@ -6,12 +6,16 @@ const StudentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    iaActive: { type: Boolean, default: false },
-    deleted: { type: Boolean, default: false },
-    marks: {
-      type: Object,
-      default: {},
+    email: {
+      type: String,
+      required: true,
     },
+    phone: {
+      type: Number,
+      required: true,
+    },
+    iaActive: { type: Boolean, default: true },
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

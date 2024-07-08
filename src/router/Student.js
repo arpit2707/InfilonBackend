@@ -1,14 +1,20 @@
 const express = require("express");
 const Student = require("../models/Student");
-
+const result = require("../models/Result");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { name, marks } = req.body;
-  const student = new Student({ name, marks });
+  const { name, email, phone, marks } = req.body;
 
+  const student = new Student({ name, email, phone });
+  const newStudent = await student.save();
+  console.log(newStudent._id, marks);
+  const results = new result({
+    studentId: newStudent._id,
+    marks: marks,
+  });
+  const newResult = await results.save();
   try {
-    const newStudent = await student.save();
     res.status(201).json(newStudent);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -32,7 +38,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/get-students", async (req, res) => {
   try {
     const students = await Student.find({ deleted: false });
     res.json(students);
